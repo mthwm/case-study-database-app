@@ -5,7 +5,6 @@ import com.moravek.applicantsdatabase.model.Technology;
 import com.moravek.applicantsdatabase.repository.ApplicantRepository;
 import com.moravek.applicantsdatabase.repository.TechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,13 +44,11 @@ public class ApplicantController {
     }
 
     @GetMapping("/applicants/{id}")
-    public ResponseEntity<Applicant> getApplicant(@PathVariable("id") long id, @RequestBody Applicant applicant) {
+    public ResponseEntity<Applicant> getApplicantById(@PathVariable("id") long id) {
         Optional<Applicant> applicantData = applicantRepository.findById(id);
 
         if (applicantData.isPresent()) {
-            Applicant _applicant = applicantData.get();
-
-            return new ResponseEntity<>(applicantRepository.save(_applicant), HttpStatus.OK);
+            return new ResponseEntity<>(applicantData.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -74,6 +71,17 @@ public class ApplicantController {
             return new ResponseEntity<>(technologies, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/technologies/{id}")
+    public ResponseEntity<Technology> getTechnologyById(@PathVariable("id") long id) {
+        Optional<Technology> technologyData = technologyRepository.findById(id);
+
+        if (technologyData.isPresent()) {
+            return new ResponseEntity<>(technologyData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -108,7 +116,7 @@ public class ApplicantController {
     }
 
     @DeleteMapping("/applicants/{id}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteApplicant(@PathVariable("id") long id) {
         try {
             applicantRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
