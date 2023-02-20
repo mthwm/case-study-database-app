@@ -81,6 +81,11 @@ Na endpointu `/api/technologies` se nachází databáze obsahující
 1. Metoda: GET
 2. Endpoint: `/api/technologies`
 
+### Získání přehledu o technologiích v databázi
+
+1. Metoda: GET
+2. Endpoint: `/api/technologies/stats`
+
 ### Získání konkrétní technologie v databázi
 
 1. Metoda: GET

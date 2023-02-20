@@ -2,6 +2,7 @@ package com.moravek.applicantsdatabase.controller;
 
 import com.moravek.applicantsdatabase.model.Applicant;
 import com.moravek.applicantsdatabase.model.Technology;
+import com.moravek.applicantsdatabase.TechnologyStats;
 import com.moravek.applicantsdatabase.repository.ApplicantRepository;
 import com.moravek.applicantsdatabase.repository.TechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,6 +166,35 @@ public class ApplicantController {
         }
     }
 
+    @GetMapping("/technologies/stats")
+    public List<TechnologyStats> calculateStatistics() {
+        List<TechnologyStats> technologies = new ArrayList<>();
 
+        technologyRepository.findAll().forEach(technology -> {
+            if (technologies.size() == 0) {
+                technologies.add(new TechnologyStats(technology.getName(), technology.getProficiency()));
+            } else {
+                boolean exists = false;
+                for (TechnologyStats technologyStats : technologies) {
+                    if (technology.getName().equals(technologyStats.getName())) {
+                        technologyStats.increaseCount();
+                        technologyStats.getLevels().add(technology.getProficiency());
+                        exists = true;
+                    }
+                }
+
+                if (!exists) {
+                    technologies.add(new TechnologyStats(technology.getName(), technology.getProficiency()));
+                }
+            }
+        });
+
+        technologies.forEach(technologyStats -> {
+            technologyStats.calculateAverageLevel();
+            technologyStats.calculateMedian();
+        });
+
+        return technologies;
+    }
 
 }
