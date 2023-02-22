@@ -75,6 +75,9 @@ public class TechnologyController {
     public ResponseEntity<Technology> createTechnology(@PathVariable(value = "applicantId") Long applicantId, @RequestBody Technology technologyRequest) {
         Technology technology = applicantRepository.findById(applicantId).map(applicant -> {
             technologyRequest.setApplicant(applicant);
+            if (!(technologyRequest.getProficiency() >= 1 && technologyRequest.getProficiency() <= 10)) {
+                technologyRequest.setProficiency(-1);
+            }
             return technologyRepository.save(technologyRequest);
         }).orElseThrow(() -> new ResourceNotFoundException("Not found Applicant with id = " + applicantId));
 
@@ -85,6 +88,10 @@ public class TechnologyController {
     public ResponseEntity<Technology> updateTechnology(@PathVariable("id") long id, @RequestBody Technology technologyRequest) {
         Technology technology = technologyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("TechnologyId " + id + "not found"));
+
+        if (!(technologyRequest.getProficiency() >= 1 && technologyRequest.getProficiency() <= 10)) {
+            technologyRequest.setProficiency(-1);
+        }
 
         technology.setName(technologyRequest.getName());
         technology.setDescription(technologyRequest.getDescription());
