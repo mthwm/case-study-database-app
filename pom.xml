@@ -8,11 +8,11 @@
 		<version>3.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.moravek</groupId>
-	<artifactId>applicants-database</artifactId>
+	<groupId>cz.moravek.database</groupId>
+	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>applicants-database</name>
-	<description>CRUD database app</description>
+	<name>api</name>
+	<description>Applicant database API</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

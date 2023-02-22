@@ -1,4 +1,4 @@
-package com.moravek.applicantsdatabase;
+package cz.moravek.database.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class TechnologyStats {
 
     public void calculateMedian() {
         Collections.sort(levels);
-        
+
         if (levels.size() % 2 == 0) {
             int midIndex1 = levels.size() / 2 - 1;
             int midIndex2 = levels.size() / 2;
